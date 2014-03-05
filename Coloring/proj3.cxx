@@ -179,7 +179,7 @@ void GetLogicalCellIndex(int *idx, int cellId, const int *dims)
 
 float GetProportion(float x, float a, float b)
 {
-	return (x-a) / (b-a);
+    return (x-a) / (b-a);
 }
 
 // ****************************************************************************
@@ -197,7 +197,7 @@ float GetProportion(float x, float a, float b)
 
 float Interpolate(float x, float a, float f_a, float b, float f_b)
 {
-	return f_a + GetProportion(x, a, b) * (f_b - f_a);
+    return f_a + GetProportion(x, a, b) * (f_b - f_a);
 }
 
 // ****************************************************************************
@@ -221,7 +221,7 @@ float Interpolate(float x, float a, float f_a, float b, float f_b)
 float EvaluateFieldAtLocation(const float *pt, const int *dims, const float *X, 
                               const float *Y, const float *F)
 {
-	float value = 0.0;
+    float value = 0.0;
     
     int minX, maxX, minY, maxY;
     
@@ -338,17 +338,17 @@ vtkImageData * NewImage(int width, int height)
 
 void ApplyBlueHotColorMap(float F, unsigned char *RGB)
 {
-	int rMin, rMax, gMin, gMax, bMin, bMax;
-	rMin = 0;
-	rMax = 255;
-	gMin = 0;
-	gMax = 255;
-	bMin = 128;
-	bMax = 255;
-
-	RGB[0] = rMin + F * (rMax - rMin);
-	RGB[1] = gMin + F * (gMax - gMin);
-	RGB[2] = bMin + F * (bMax - bMin);
+    int rMin, rMax, gMin, gMax, bMin, bMax;
+    rMin = 0;
+    rMax = 255;
+    gMin = 0;
+    gMax = 255;
+    bMin = 128;
+    bMax = 255;
+    
+    RGB[0] = rMin + F * (rMax - rMin);
+    RGB[1] = gMin + F * (gMax - gMin);
+    RGB[2] = bMin + F * (bMax - bMin);
 }
 
 // ****************************************************************************
@@ -372,38 +372,37 @@ void ApplyBlueHotColorMap(float F, unsigned char *RGB)
 
 void ApplyDifferenceColorMap(float F, unsigned char *RGB)
 {
-	int rMin, rMax, gMin, gMax, bMin, bMax;
-	float t = 0.0;
-	if (F < 0.5) {
-		rMin = 0;
-		rMax = 255;
-		gMin = 0;
-		gMax = 255;
-		bMin = 128;
-		bMax = 255;
-		
-		t = F/0.5;
-	} else if (F > 0.5) {
-		rMin = 255;
-		rMax = 128;
-		gMin = 255;
-		gMax = 0;
-		bMin = 255;
-		bMax = 0;
-		t = (F-0.5)/(1.0 - 0.5);
-	} else {
-		rMin = 255;
-		rMax = 255;
-		gMin = 255;
-		gMax = 255;
-		bMin = 255;
-		bMax = 255;
-		t = 1.0;
-	}
-	
-	RGB[0] = rMin + t * (rMax - rMin);
-	RGB[1] = gMin + t * (gMax - gMin);
-	RGB[2] = bMin + t * (bMax - bMin);
+    int rMin, rMax, gMin, gMax, bMin, bMax;
+    float t = 0.0;
+    if (F < 0.5) {
+        rMin = 0;
+        rMax = 255;
+        gMin = 0;
+        gMax = 255;
+        bMin = 128;
+        bMax = 255;
+        t = F/0.5;
+    } else if (F > 0.5) {
+        rMin = 255;
+        rMax = 128;
+        gMin = 255;
+        gMax = 0;
+        bMin = 255;
+        bMax = 0;
+        t = (F-0.5)/(1.0 - 0.5);
+    } else {
+        rMin = 255;
+        rMax = 255;
+        gMin = 255;
+        gMax = 255;
+        bMin = 255;
+        bMax = 255;
+        t = 1.0;
+    }
+    
+    RGB[0] = rMin + t * (rMax - rMin);
+    RGB[1] = gMin + t * (gMax - gMin);
+    RGB[2] = bMin + t * (bMax - bMin);
 }
 
 // ****************************************************************************
@@ -424,51 +423,51 @@ void ApplyDifferenceColorMap(float F, unsigned char *RGB)
 
 void ApplyHSVColorMap(float F, unsigned char *RGB)
 {
-	float hue = 360 * F / 60.0;
-	float saturation = 1.0;
-	float value = 1.0;
-	
-	int i = floor(hue);
-	float f = hue - i;
-	
-	// cerr << "F: " << F << " hue: " << hue << " i: " << i << endl;
-	
-	float p = 255 * value * (1 - saturation);
-	float q = 255 * value * (1 - saturation * f);
-	float t = 255 * value * (1 - saturation * (1 - f));
-	
-	switch(i) {
-		case 0:
-			RGB[0] = 255 * value;
-			RGB[1] = t;
-			RGB[2] = p;
-			break;
-		case 1:
-			RGB[0] = q;
-			RGB[1] = 255 * value;
-			RGB[2] = p;
-			break;
-		case 2:
-			RGB[0] = p;
-			RGB[1] = 255 * value;
-			RGB[2] = t;
-			break;
-		case 3:
-			RGB[0] = p;
-			RGB[1] = q;
-			RGB[2] = 255 * value;
-			break;
-		case 4:
-			RGB[0] = t;
-			RGB[1] = p;
-			RGB[2] = 255 * value;
-			break;
-		case 5:
-			RGB[0] = 255 * value;
-			RGB[1] = p;
-			RGB[2] = q;
-			break;
-	}
+    float hue = 360 * F / 60.0;
+    float saturation = 1.0;
+    float value = 1.0;
+    
+    int i = floor(hue);
+    float f = hue - i;
+    
+    // cerr << "F: " << F << " hue: " << hue << " i: " << i << endl;
+    
+    float p = 255 * value * (1 - saturation);
+    float q = 255 * value * (1 - saturation * f);
+    float t = 255 * value * (1 - saturation * (1 - f));
+    
+    switch(i) {
+        case 0:
+            RGB[0] = 255 * value;
+            RGB[1] = t;
+            RGB[2] = p;
+            break;
+        case 1:
+            RGB[0] = q;
+            RGB[1] = 255 * value;
+            RGB[2] = p;
+            break;
+        case 2:
+            RGB[0] = p;
+            RGB[1] = 255 * value;
+            RGB[2] = t;
+            break;
+        case 3:
+            RGB[0] = p;
+            RGB[1] = q;
+            RGB[2] = 255 * value;
+            break;
+        case 4:
+            RGB[0] = t;
+            RGB[1] = p;
+            RGB[2] = 255 * value;
+            break;
+        case 5:
+            RGB[0] = 255 * value;
+            RGB[1] = p;
+            RGB[2] = q;
+            break;
+    }
 }
 
 
