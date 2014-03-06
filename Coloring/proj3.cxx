@@ -352,7 +352,7 @@ void ApplyBlueHotColorMap(float F, unsigned char *RGB)
 }
 
 // ****************************************************************************
-//  Function: ApplyDifferenceColorMap
+//  Function: ApplyDivergentColorMap
 //
 //  Purpose: 
 //     Maps a normalized scalar value F (0<=F<=1) to a color using a divergent 
@@ -370,7 +370,7 @@ void ApplyBlueHotColorMap(float F, unsigned char *RGB)
 //      
 // ****************************************************************************
 
-void ApplyDifferenceColorMap(float F, unsigned char *RGB)
+void ApplyDivergentColorMap(float F, unsigned char *RGB)
 {
     int rMin, rMax, gMin, gMax, bMin, bMax;
     float t = 0.0;
@@ -522,11 +522,11 @@ int main()
             // I TAKE OVER HERE
             int offset = 3*(j*nx+i);
             ApplyBlueHotColorMap(normalizedF, buffer[0]+offset);
-            ApplyDifferenceColorMap(normalizedF, buffer[1]+offset);
+            ApplyDivergentColorMap(normalizedF, buffer[1]+offset);
             ApplyHSVColorMap(normalizedF, buffer[2]+offset);
         }
 
     WriteImage(images[0], "bluehot");
-    WriteImage(images[1], "difference");
+    WriteImage(images[1], "divergent");
     WriteImage(images[2], "hsv");
 }
